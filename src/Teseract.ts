@@ -22,6 +22,10 @@ const Plugins: { name: string; plugin: TeseractPlugin }[] = [];
  *
  */
 export default abstract class Teseract {
+    public static getLogger(pluginId: string) {
+        return new Logger(pluginId)
+    };
+
     public static getCurrentTick() {
         system.currentTick;
     }
@@ -65,7 +69,6 @@ export default abstract class Teseract {
     private static onWorldInitialized(event: WorldInitializeBeforeEvent) {
         for (const plugin of Plugins) {
             try {
-                console.warn("sex anal");
                 plugin.plugin?.onEnabled(event);
             } catch (error) {
                 LOGGER.error(error);
