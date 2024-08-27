@@ -1,0 +1,55 @@
+{
+  "ts-node": {
+      "esm": true
+  },
+  "compilerOptions": {
+      "allowJs": true,
+
+      "module": "es2020",
+      "esModuleInterop": true,
+      "moduleResolution": "node",
+      "lib": ["es2020", "DOM"],
+      "strict": false,
+      "target": "es2020",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "noImplicitAny": false,
+      "typeRoots": [
+          "./src/**/*.d.ts"
+      ],
+
+      "noEmitOnError": true,
+      "strictBindCallApply": false,
+      "useUnknownInCatchVariables": false,
+      "noImplicitOverride": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "allowUnusedLabels": true,
+      "skipLibCheck": true,
+      "alwaysStrict": true,
+      "preserveConstEnums": true,
+      "newLine": "lf",
+      "declaration": true,
+      "noLib": false,
+      "sourceMap": true,
+      "pretty": true,
+      "forceConsistentCasingInFileNames": true,
+      "allowUnreachableCode": true,
+      "noImplicitReturns": false,
+      "noImplicitUseStrict": false,
+      "outDir": "build/",
+      "rootDir": ".",
+      "listFiles": false,
+      "noEmitHelpers": true,
+      "baseUrl": "./src",
+      "paths": {
+          "teseract/*": ["./teseract/*"],
+          "ultimate/*": ["./ultimate/*"]
+      },
+      "resolveJsonModule": true
+  },
+  "exclude": [
+      "scripts"
+  ],
+  "compileOnSave": false
+}
