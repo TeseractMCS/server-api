@@ -1,8 +1,8 @@
 import { Player, Vector3 } from "@minecraft/server";
-import ArmorSlot from "inventory/ArmorSlot";
-import Inventory from "inventory/Inventory";
-import PlayerInventory from "inventory/PlayerInventory";
-import ScaledKnockbackOptions from "util/interface/ScaledKnockbackOptions";
+import ArmorSlot from "../inventory/ArmorSlot";
+import Inventory from "../inventory/Inventory";
+import PlayerInventory from "../inventory/PlayerInventory";
+import ScaledKnockbackOptions from "../util/interface/ScaledKnockbackOptions";
 
 declare module "@minecraft/server" {
     interface Player {

@@ -1,8 +1,8 @@
 import "./entity/Entity";
 import "./entity/Player";
 import { system } from "@minecraft/server";
-import CommandManager from "command/CommandManager";
-import EventManager from "event/EventManager";
+import CommandManager from "./command/CommandManager";
+import EventManager from "./event/EventManager";
 
 /**
  *

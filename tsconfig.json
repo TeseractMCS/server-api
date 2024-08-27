@@ -14,9 +14,6 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "noImplicitAny": false,
-      "typeRoots": [
-          "./src/**/*.d.ts"
-      ],
 
       "noEmitOnError": true,
       "strictBindCallApply": false,
@@ -41,10 +38,8 @@
       "rootDir": ".",
       "listFiles": false,
       "noEmitHelpers": true,
-      "baseUrl": "./src",
+      "baseUrl": ".",
       "paths": {
-          "teseract/*": ["./teseract/*"],
-          "ultimate/*": ["./ultimate/*"]
       },
       "resolveJsonModule": true
   },
