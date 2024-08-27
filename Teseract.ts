@@ -7,7 +7,7 @@ import EventManager from "./event/EventManager";
 /**
  *
  */
-abstract class Teseract {
+export default abstract class Teseract {
     public static getCurrentTick() {
         system.currentTick;
     }

@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import CommandHandler from "./CommandHandler";
-import EventHandler from "event/EventHandler";
+import EventHandler from "../event/EventHandler";
 import {
     ChatSendAfterEvent,
     ChatSendBeforeEvent,
     world,
 } from "@minecraft/server";
-import EventManager from "event/EventManager";
-import Identifier from "util/Identifier";
+import EventManager from "../event/EventManager";
+import Identifier from "../util/Identifier";
 
 declare module "@minecraft/server" {
     interface ChatSendBeforeEvent {
@@ -20,7 +20,7 @@ export default class CommandManager {
 
     public static get prefix(): string {
         let prefix = world.getDynamicProperty(
-            Identifier.of("system", "command_prefix"),
+            Identifier.of("system", "command_prefix").toString(),
         ) as string;
         if (prefix == undefined) {
             prefix = "-";

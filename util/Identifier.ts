@@ -11,14 +11,14 @@ export default class Identifier extends String {
         Object.setPrototypeOf(this, Identifier.prototype);
     }
 
-    public static of(namespace: string, path: string): string & Identifier {
+    public static of(namespace: string, path: string): Identifier {
         if (!this.isValidNamespace(namespace) || !this.isValidPath(path)) {
             throw new Error(`Invalid Identifier: ${namespace}:${path}`);
         }
-        return new Identifier(namespace, path) as string & Identifier;
+        return new Identifier(namespace, path) as Identifier;
     }
 
-    public static fromString(identifier: string): string & Identifier {
+    public static fromString(identifier: string): Identifier {
         const [namespace, path] = identifier.split(":");
         if (!namespace || !path) {
             throw new Error(`Invalid identifier format: ${identifier}`);
@@ -45,5 +45,3 @@ export default class Identifier extends String {
         return this.split(":")[1];
     }
 }
-
-"we".concat(Identifier.of("hijo","deputa"))
