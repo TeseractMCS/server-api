@@ -3,6 +3,17 @@ import "./entity/Player";
 import { system } from "@minecraft/server";
 import CommandManager from "./command/CommandManager";
 import EventManager from "./event/EventManager";
+import Logger from "./Logger";
+
+globalThis.LOGGER = new Logger();
+Object.seal(globalThis.LOGGER)
+declare global {
+    /**
+     * A {@link console} object extension for internal @teseract/server-api logging. 
+     * @remarks This object is usable anywhere, but {@link Logger.getPluginIdentifier} will always be "system"
+     */
+    var LOGGER: Logger;
+}
 
 /**
  *
