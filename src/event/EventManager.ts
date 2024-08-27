@@ -1,4 +1,4 @@
-import { world } from "@minecraft/server";
+import { system, world } from "@minecraft/server";
 
 export default class EventManager {
     private static isInstance(arg: any): boolean {
@@ -7,17 +7,16 @@ export default class EventManager {
 
     public static registerEvents(target: any) {
         let constructor = this.isInstance(target) ? target.constructor : target;
-        for (const [key, values] of constructor[
-            "__eventHandlers"
-        ].entries()) {
+        let targetClass = target;
+        for (const [key, values] of constructor["__eventHandlers"].entries()) {
             for (const listener of values) {
                 if (listener.isAfter) {
                     world.afterEvents[key]?.subscribe(
-                        target[listener.key].bind(target),
+                        targetClass[listener.key].bind(targetClass),
                     );
                 } else {
                     world.beforeEvents[key]?.subscribe(
-                        target[listener.key].bind(target),
+                        targetClass[listener.key].bind(targetClass),
                     );
                 }
             }
