@@ -1,58 +1,52 @@
 {
-    "ts-node": {
-        "esm": true
-    },
-    "compilerOptions": {
-        "allowJs": true,
-  
-        "module": "es2020",
-        "esModuleInterop": true,
-        "moduleResolution": "node",
-        "lib": ["es2020", "DOM"],
-        "strict": false,
-        "target": "es2020",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "noImplicitAny": false,
-      //   "typeRoots": [
-      //       "./src/**/*F.d.ts"
-      //   ],
-  
-        "noEmitOnError": true,
-        "strictBindCallApply": false,
-        "useUnknownInCatchVariables": false,
-        "noImplicitOverride": true,
-        "noUnusedLocals": false,
-        "noUnusedParameters": false,
-        "allowUnusedLabels": true,
-        "skipLibCheck": true,
-        "alwaysStrict": true,
-        "preserveConstEnums": true,
-        "newLine": "lf",
-        "types": [
-            // "./src/global.d.ts"
-        ],
-        "declarationDir": "dist/",
-        "declaration": true,
-        "noLib": false,
-        "sourceMap": true,
-        "pretty": true,
-        "forceConsistentCasingInFileNames": true,
-        "allowUnreachableCode": true,
-        "noImplicitReturns": false,
-        "noImplicitUseStrict": false,
-        "outDir": "build/",
-        "rootDir": ".",
-        "listFiles": false,
-        "noEmitHelpers": true,
-        "baseUrl": "./src",
-        "paths": {
-            "teseract/server-api*": ["../teseract/server-api/*"]
-        },
-        "resolveJsonModule": true
-    },
-    "include": [
-      "src/**/*"
+  "ts-node": {
+    "esm": true
+  },
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "es2020",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "lib": [
+      "es2020",
+      "DOM"
     ],
-    "compileOnSave": false
-  }
+    "strict": false,
+    "target": "es2020",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "strictBindCallApply": false,
+    "useUnknownInCatchVariables": false,
+    "noImplicitOverride": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "allowUnusedLabels": true,
+    "skipLibCheck": true,
+    "alwaysStrict": true,
+    "preserveConstEnums": true,
+    "newLine": "lf",
+    "types": [],
+    "declarationDir": "dist/",
+    "declaration": true,
+    "noLib": false,
+    "sourceMap": true,
+    "pretty": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowUnreachableCode": true,
+    "noImplicitReturns": false,
+    "noImplicitUseStrict": false,
+    "outDir": "build/",
+    "rootDir": ".",
+    "listFiles": false,
+    "noEmitHelpers": true,
+    "baseUrl": ".",
+    "paths": {},
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "compileOnSave": false
+}
