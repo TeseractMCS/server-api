@@ -48,14 +48,14 @@ export default abstract class Teseract {
         pluginName: string,
     ): void {
         try {
-            if (!(plugin instanceof TeseractPlugin)) {
-                throw new Error(
-                    "Plugin " +
-                        // @ts-ignore
-                        plugin.constructor.name +
-                        " is not a a derived class of TeseractPlugin",
-                );
-            }
+            // if (!(plugin instanceof TeseractPlugin)) {
+            //     throw new Error(
+            //         "Plugin " +
+            //             // @ts-ignore
+            //             plugin.constructor.name +
+            //             " is not a a derived class of TeseractPlugin",
+            //     );
+            // }
             Plugins.push({ plugin: plugin, name: pluginName });
             if (typeof plugin?.onLoaded === "function") {
                 plugin?.onLoaded();

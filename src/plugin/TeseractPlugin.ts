@@ -1,18 +1,15 @@
-import {
-    WorldInitializeBeforeEvent,
-} from "@minecraft/server";
+import { WorldInitializeBeforeEvent } from "@minecraft/server";
 import Teseract from "../Teseract";
 
 interface ITeseractPlugin {
     onLoaded?(): void;
     onEnabled?(initializer: WorldInitializeBeforeEvent): void;
-    
 }
 
 /**
  * Represents a Teseract API plugin, this class may be extended by the plugin class for it to be valid.
  */
-export default abstract class TeseractPlugin implements ITeseractPlugin {
+abstract class TeseractPlugin implements ITeseractPlugin {
     public static PLUGIN_ID: string;
     public getEventManager() {
         try {
@@ -34,3 +31,5 @@ export default abstract class TeseractPlugin implements ITeseractPlugin {
 
     public onEnabled(initializer: WorldInitializeBeforeEvent): void {}
 }
+
+export default TeseractPlugin;
