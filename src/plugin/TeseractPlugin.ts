@@ -1,5 +1,6 @@
 import { WorldInitializeBeforeEvent } from "@minecraft/server";
 import Teseract from "../Teseract";
+import Identifier from "../util/Identifier";
 
 interface ITeseractPlugin {
     onLoaded?(): void;

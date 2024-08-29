@@ -3,21 +3,22 @@ const Color = {
     Reset: "§r",
 };
 export default class Logger {
-    #pluginId: string;
-    #emitDebugLogs: boolean;
-    #emitRobustDebugLogs: boolean;
+    private pluginId: string;
+    private emitDebugLogs: boolean;
+    private emitRobustDebugLogs: boolean;
+    
     public constructor(
         pluginId: string = "system",
         emitDebugLogs: boolean = false,
         emitRobustDebugLogs: boolean = false,
     ) {
-        this.#pluginId = pluginId;
-        this.#emitDebugLogs = emitDebugLogs;
-        this.#emitRobustDebugLogs = emitRobustDebugLogs;
+        this.pluginId = pluginId;
+        this.emitDebugLogs = emitDebugLogs;
+        this.emitRobustDebugLogs = emitRobustDebugLogs;
     }
 
     public getPluginIdentifier() {
-        return this.#pluginId;
+        return this.pluginId;
     }
 
     public log(message: any, ...data: any[]) {
@@ -84,7 +85,7 @@ export default class Logger {
     }
 
     public debug(message: any, ...data: any[]) {
-        if (this.#emitDebugLogs) {
+        if (this.emitDebugLogs) {
             if (message instanceof Error) {
                 return console.warn(
                     `[${this.getPluginIdentifier()}] [debug]`,
@@ -118,7 +119,7 @@ export default class Logger {
     }
 
     public robust(message: any, ...data: any[]) {
-        if (this.#emitRobustDebugLogs) {
+        if (this.emitRobustDebugLogs) {
             if (message instanceof Error) {
                 return console.warn(
                     `[${this.getPluginIdentifier()}] [debug] [robust]`,
