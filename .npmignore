@@ -1,0 +1,12 @@
+.git/
+.gitignore
+*.log
+node_modules/
+dist/
+build/
+coverage/
+tests/
+*.test.js
+*.spec.js
+*.config.js
+tsconfig.json
