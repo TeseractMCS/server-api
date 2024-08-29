@@ -1,8 +1,5 @@
 import {
-    BlockCustomComponent,
-    ItemCustomComponent,
     WorldInitializeBeforeEvent,
-    world,
 } from "@minecraft/server";
 import Teseract from "../Teseract";
 import Identifier from "../util/Identifier";
