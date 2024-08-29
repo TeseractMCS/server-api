@@ -5,7 +5,7 @@ import {
     world,
 } from "@minecraft/server";
 import Teseract from "../Teseract";
-import Identifier from "src/util/Identifier";
+import Identifier from "../util/Identifier";
 
 interface ITeseractPlugin {
     onLoaded?(): void;
