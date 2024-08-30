@@ -1,14 +1,36 @@
-import { system, world } from "@minecraft/server";
+import { world } from "@minecraft/server";
 
+/**
+ * Manages event subscriptions for Minecraft events.
+ * Provides functionality to register event handlers on a given target.
+ */
 export default class EventManager {
     private static isInstance(arg: any): boolean {
         return typeof arg === "object" && arg !== null;
     }
 
-    public static registerEvents(target: any) {
-        let constructor = this.isInstance(target) ? target.constructor : target;
-        let targetClass = target;
-        for (const [key, values] of constructor["__eventHandlers"].entries()) {
+    /**
+     * Registers event handlers on a target object.
+     * This method reads event handler configurations from the target's constructor.
+     * @param target The target object or its constructor with event handlers.
+     */
+    public static registerEvents(target: any): void {
+        const constructor = this.isInstance(target)
+            ? target.constructor
+            : target;
+        const targetClass = target;
+
+        const eventHandlers = constructor["__eventHandlers"] as Map<
+            string,
+            Array<{ key: string; isAfter: boolean }>
+        >;
+
+        if (!eventHandlers) {
+            console.warn("No event handlers found on the target.");
+            return;
+        }
+
+        for (const [key, values] of eventHandlers.entries()) {
             for (const listener of values) {
                 if (listener.isAfter) {
                     world.afterEvents[key]?.subscribe(

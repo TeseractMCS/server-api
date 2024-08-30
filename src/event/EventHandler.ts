@@ -1,7 +1,5 @@
 import "reflect-metadata";
-import EventManager from "./EventManager";
 import { world } from "@minecraft/server";
-import EventMappings from "./EventMappings";
 
 export default function EventHandler(
     target: any,
