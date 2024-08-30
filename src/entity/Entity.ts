@@ -8,9 +8,29 @@ import {
 
 declare module "@minecraft/server" {
     interface Entity {
+        /**
+         * Gets the cardinal direction the entity is facing, considering both X and Y rotations.
+         * @returns The cardinal direction (North, East, South, West, Up, or Down).
+         */
         getCardinalFacing(): Direction;
+
+        /**
+         * Gets the cardinal direction the entity is facing, considering only the Y rotation (2D plane).
+         * @returns The cardinal direction (North, East, South, or West).
+         */
         getCardinalFacing2d(): Direction;
+
+        /**
+         * Gets the block located below the entity at a specified distance.
+         * @param distance - The distance below the entity to check. Defaults to 1.
+         * @returns The block below the entity, or `undefined` if no block is found or an error occurs.
+         */
         getBlockBelow(distance: number): Block;
+
+        /**
+         * Determines if the entity is an instance of a Player.
+         * @returns `true` if the entity is a Player; otherwise, `false`.
+         */
         isPlayer(): this is Player;
     }
 }

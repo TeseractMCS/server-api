@@ -1,10 +1,16 @@
 import * as MinecraftServer from "@minecraft/server";
 
+/**
+ * A class representing a runnable task that can be scheduled to run at a later time or on a recurring basis.
+ */
 export default class Runnable {
     private cancelled: boolean;
     private id: number | undefined;
     private runningTimer: boolean;
     
+    /**
+     * Creates an instance of the Runnable class.
+     */
     public constructor() {
         this.cancelled = false;
         this.id = undefined;
@@ -13,6 +19,7 @@ export default class Runnable {
 
     /**
      * Returns a boolean indicating if the task is cancelled or not.
+     * 
      * @returns If the task is cancelled or not.
      */
     public isCancelled(): boolean {
@@ -24,14 +31,14 @@ export default class Runnable {
     }
 
     /**
-     * Attemps to cancel the current run of this runnable task.
-     * This may NOT cancel the running of if run or runAsynchronously was called before.
+     * Attempts to cancel the current run of this runnable task.
+     * This may NOT cancel the running task if `run` or `runAsynchronously` was called before.
      */
     public cancel() {
         try {
             if (!this.id) {
                 throw new Error(
-                    "Runnable ID is undefined. ¿Is it an internal error?",
+                    "Runnable ID is undefined. Is it an internal error?",
                 );
             }
             if (this.runningTimer || this.id != undefined) {
@@ -40,25 +47,28 @@ export default class Runnable {
                 this.cancelled = true;
             }
         } catch (error: any) {
-            console.warn(error, error.stack);
+            LOGGER.error(error);
         }
     }
 
     /**
-     * Returns the identifier of the internal server job. Identifier may change when running the task with different methods.
-     * @returns Opaque internal MinecraftServer.system.runTimeout/runInterval identifier. This identifier will be overrided when running any run<Mode> method.
+     * Returns the identifier of the internal server job. The identifier may change when running the task with different methods.
+     * 
+     * @returns Opaque internal MinecraftServer.system.runTimeout/runInterval identifier. This identifier will be overridden when running any run<Mode> method.
      */
     public getIdentifier(): number | undefined {
         try {
             return this.id;
         } catch (error: any) {
-            console.warn(error, error.stack);
+            LOGGER.error(error);
         }
     }
 
     /**
-     * Runs this task on the next tick
-     * @param args Optional persistent arguments
+     * Runs this task on the next tick with an optional delay.
+     * 
+     * @param delay The delay in ticks before the task runs. Must be an integer.
+     * @param args Optional persistent arguments.
      */
     public runLater(delay: number, ...args: any[]): any {
         try {
@@ -76,18 +86,29 @@ export default class Runnable {
                 this.onRun(args);
             }, delay);
         } catch (error: any) {
-            console.warn(error, error.stack);
+            LOGGER.error(error);
         }
     }
+
     /**
-     * Function that triggers when the runnable instance is executed
+     * Function that triggers when the runnable instance is executed.
+     * 
+     * @param args Optional arguments passed to the function when executed.
      */
     public onRun(...args: any[]) {}
-    public *onRunJob(...args: any[]): Generator<void, void, void> {
-    }
+
     /**
-     * Runs this task on the next tick
-     * @param args Optional persistent arguments
+     * Function that triggers when the runnable instance is executed as a generator job.
+     * 
+     * @param args Optional arguments passed to the function when executed.
+     * @returns A generator yielding void.
+     */
+    public *onRunJob(...args: any[]): Generator<void, void, void> {}
+
+    /**
+     * Runs this task on the next tick.
+     * 
+     * @param args Optional persistent arguments.
      */
     public run(...args: any[]): any {
         try {
@@ -101,12 +122,15 @@ export default class Runnable {
                 this.onRun(args);
             }, 1);
         } catch (error: any) {
-            console.warn(error, error.stack);
+            LOGGER.error(error);
         }
     }
+
     /**
-     * Runs this task asynchronously on the next tick
-     * @param args Optional persistent arguments
+     * Runs this task asynchronously on the next tick.
+     * 
+     * @param args Optional persistent arguments.
+     * @returns A promise that resolves with the result of the onRun method.
      */
     public async runAsynchronously(...args: any[]): Promise<any> {
         if (this.runningTimer) {
@@ -126,6 +150,14 @@ export default class Runnable {
             }
         });
     }
+
+    /**
+     * Runs this task on a recurring interval.
+     * 
+     * @param interval The interval in ticks between executions. Must be an integer.
+     * @param delay Optional delay before the first execution. Must be an integer.
+     * @param args Optional persistent arguments.
+     */
     public runTimer(interval: number, delay?: number, ...args: any[]): any {
         try {
             if (!Number.isInteger(interval)) {
@@ -163,7 +195,7 @@ export default class Runnable {
                 }
             }, interval);
         } catch (error: any) {
-            console.warn(error, error.stack);
+            LOGGER.error(error);
         }
     }
 }

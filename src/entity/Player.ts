@@ -6,6 +6,15 @@ import ScaledKnockbackOptions from "../util/interface/ScaledKnockbackOptions";
 
 declare module "@minecraft/server" {
     interface Player {
+        /**
+         * Applies a scaled knockback effect to the player based on the direction and magnitude.
+         * The effect is scaled according to the player's armor, with netherite armor providing extra resistance that will be inhibited.
+         * @param directionX - The X direction of the knockback.
+         * @param directionZ - The Z direction of the knockback.
+         * @param magnitudeX - The X magnitude of the knockback.
+         * @param magnitudeY - The Y magnitude of the knockback.
+         * @param options - Optional parameters for customizing the knockback effect.
+         */
         scaledKnockback(
             directionX: number,
             directionZ: number,
@@ -13,7 +22,16 @@ declare module "@minecraft/server" {
             magnitudeY: number,
             options?: ScaledKnockbackOptions,
         ): void;
+
+        /**
+         * Clears any vertical impulse applied to the player, effectively resetting their vertical velocity.
+         */
         clearVerticalImpulse(): void;
+
+        /**
+         * Retrieves the player's inventory.
+         * @returns The player's inventory as a `PlayerInventory` instance.
+         */
         getInventory(): PlayerInventory;
     }
 }

@@ -6,7 +6,7 @@ import {
     ItemStack,
 } from "@minecraft/server";
 
-export default class Inventory {
+class Inventory {
     #minecraft_inventory: EntityInventoryComponent;
 
     constructor(data: EntityInventoryComponent) {
@@ -199,3 +199,5 @@ export default class Inventory {
         }
     }
 }
+
+export default Inventory;
