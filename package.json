@@ -20,5 +20,8 @@
     "@minecraft/server": "^1.14.0-beta.1.21.20-stable",
     "reflect-metadata": "^0.2.2",
     "typescript": "^4.0.0"
+  },
+  "devDependencies": {
+    "typedoc": "^0.26.6"
   }
 }
