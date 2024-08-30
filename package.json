@@ -1,11 +1,18 @@
 {
-  "name": "@teseract/server-api",
-  "version": "1.0.0",
+  "name": "@teseractmcs/server-api",
+  "version": "1.1.0",
   "description": "",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rmdir /s /q lib",
+    "build": "npm run clean && tsc"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "author": "NxmbersCib",
   "license": "ISC",
