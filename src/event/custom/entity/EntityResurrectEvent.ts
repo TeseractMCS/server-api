@@ -4,7 +4,6 @@ import {
     EntityDamageSource,
     EquipmentSlot,
     Player,
-    World,
     world,
     WorldBeforeEvents,
 } from "@minecraft/server";

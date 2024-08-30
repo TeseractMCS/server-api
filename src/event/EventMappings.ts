@@ -56,7 +56,6 @@ import {
     TripWireTripAfterEvent,
     WeatherChangeAfterEvent,
     WeatherChangeBeforeEvent,
-    world,
     WorldInitializeAfterEvent,
     WorldInitializeBeforeEvent,
 } from "@minecraft/server";
