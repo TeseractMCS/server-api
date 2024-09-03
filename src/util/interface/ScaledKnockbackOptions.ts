@@ -1,5 +1,7 @@
 import ScaledKnockbackArmor from "./ScaledKnockbackArmor";
 
-export default interface ScaledKnockbackOptions {
+interface ScaledKnockbackOptions {
     armors: ScaledKnockbackArmor[];
 }
+
+export default ScaledKnockbackOptions;

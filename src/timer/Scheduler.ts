@@ -1,6 +1,5 @@
 import { system } from "@minecraft/server";
-
-export default abstract class Scheduler {
+abstract class Scheduler {
     public static async sleep(ticks: number) {
         return system.waitTicks(ticks);
     }
@@ -43,3 +42,5 @@ export default abstract class Scheduler {
         }
     }
 }
+
+export default Scheduler;
