@@ -1,8 +1,11 @@
 import { RawMessage, Player } from "@minecraft/server";
 
- function FormButton(
-    buttonText: RawMessage | string | ((player: Player) => RawMessage | string),
-    iconPath: string,
+function FormButton<T = any>(
+    buttonText:
+        | RawMessage
+        | string
+        | ((this: T, player: Player) => RawMessage | string),
+    iconPath?: string | ((this: T, player: Player) => string),
 ) {
     return function (
         target: any,

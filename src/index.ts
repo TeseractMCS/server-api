@@ -11,10 +11,10 @@ declare global {
     var LOGGER: Logger;
 }
 
+import Teseract from "./Teseract";
+
 import "./entity/Entity";
 import "./entity/Player";
-
-import Teseract from "./Teseract";
 
 export { Teseract, Logger };
 
@@ -24,3 +24,4 @@ export * from "./inventory/index";
 export * from "./plugin/index";
 export * from "./timer/index";
 export * from "./util/index";
+export * from "./ui/index";

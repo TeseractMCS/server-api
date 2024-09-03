@@ -1,19 +1,25 @@
 import { Player, Vector3 } from "@minecraft/server";
 import ArmorSlot from "../inventory/ArmorSlot";
-import Inventory from "../inventory/Inventory";
 import PlayerInventory from "../inventory/PlayerInventory";
 import ScaledKnockbackOptions from "../util/interface/ScaledKnockbackOptions";
+import ActionFormIntializer from "../ui/actionform/ActionFormInitializer";
+import MessageFormInitializer from "../ui/messageform/MessageFormInitializer";
+import FormError from "../util/error/FormError";
+import IsInstance from "../util/general/IsInstance";
+import FormType from "src/ui/FormType";
 
 declare module "@minecraft/server" {
     interface Player {
+        sendForm(form: InstanceType<any>): void;
         /**
          * Applies a scaled knockback effect to the player based on the direction and magnitude.
          * The effect is scaled according to the player's armor, with netherite armor providing extra resistance that will be inhibited.
+         * @remarks This is an approach, the resistance override may not be exact.
          * @param directionX - The X direction of the knockback.
          * @param directionZ - The Z direction of the knockback.
          * @param magnitudeX - The X magnitude of the knockback.
          * @param magnitudeY - The Y magnitude of the knockback.
-         * @param options - Optional parameters for customizing the knockback effect.
+         * @param options - Optional parameters for customizing the knockback effect. This parameter currently does not take any effect on the knockback.
          */
         scaledKnockback(
             directionX: number,
@@ -58,6 +64,41 @@ Player.prototype.scaledKnockback = function scaledKnockback(
         magnitudeX * multiplier,
         magnitudeY * multiplier,
     );
+};
+
+Player.prototype.sendForm = async function sendForm(form: InstanceType<any>) {
+    if (!IsInstance(form)) {
+        throw new FormError(
+            `Form passed to Player.sendForm function is not an instance of an object.`,
+        );
+    }
+
+    if (
+        !(form instanceof ActionFormIntializer) &&
+        !(form instanceof MessageFormInitializer)
+    ) {
+        throw new FormError(
+            `Object instance passed to Player.sendForm function is not a form.`,
+        );
+    }
+
+    switch (form.constructor["_formdata"].type) {
+        case FormType.ACTION:
+            {
+                const formData = new ActionFormIntializer(form);
+                return formData.sendForm(this);
+            }
+            break;
+
+        case FormType.MESSAGE:
+            {
+                const formData = new MessageFormInitializer(form);
+                return formData.sendForm(this);
+            }
+            break;
+        default:
+            break;
+    }
 };
 
 Player.prototype.applyImpulse = function applyImpulse(vector: Vector3) {

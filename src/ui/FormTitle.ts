@@ -1,13 +1,15 @@
 import { Player, RawMessage } from "@minecraft/server";
-import FormType from "./FormType";
 import FormError from "src/util/error/FormError";
 
-type Constructor<T = {}> = new (...args: any[]) => T;
+type Constructor<T> = new (...args: any[]) => T;
 
-export default function FormTitle(
-    title: RawMessage | string | ((player: Player) => RawMessage | string),
+function FormTitle<T extends Constructor<InstanceType<T>> = any>(
+    title:
+        | RawMessage
+        | string
+        | ((this: InstanceType<T>, player: Player) => RawMessage | string),
 ) {
-    return function (target: Constructor) {
+    return function (target: T) {
         if (!target.constructor["_formdata"]) {
             throw new FormError(
                 `@FormTitle called on non-form class. Did you call it before @<Type>Form decorator?`,
@@ -16,3 +18,5 @@ export default function FormTitle(
         target.constructor["_formdata"]["title"] = title;
     };
 }
+
+export default FormTitle;
