@@ -89,13 +89,15 @@ class CommandManager {
     public static getCommands() {
         return this.commands;
     }
-
+    
     /**
-     * Registers a command by adding its class instance to the list of commands.
-     * @param commandClass - The class instance of the command to register.
+     * Registers a bundle commands by adding its class instance to the list of commands.
+     * @param commandClasses - The class instances of the commands to register.
      */
-    public static registerCommand(commandClass: InstanceType<any>) {
-        this.commands.push(commandClass);
+    public static registerCommands(...commandClasses: InstanceType<any>[]) {
+        for (const command of commandClasses) {
+            this.commands.push(command);
+        }
     }
 }
 
