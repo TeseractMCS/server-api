@@ -10,3 +10,7 @@ tests/
 *.spec.js
 *.config.js
 tsconfig.json
+src/
+teseractmcs-server-api*
+web-docs/
+docs/
