@@ -36,7 +36,12 @@ class ActionFormIntializer extends ActionFormData {
                 typeof button.buttonText === "function"
                     ? button.buttonText.call(this.data, player)
                     : button.buttonText;
-            this.button(text, button.iconPath);
+            this.button(
+                text,
+                typeof button.iconPath === "function"
+                    ? button.iconPath.call(this.data, player)
+                    : button.iconPath,
+            );
         }
 
         const response = await ForceOpenForm(player, this);
