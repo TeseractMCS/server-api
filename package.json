@@ -1,6 +1,6 @@
 {
   "name": "@teseractmcs/server-api",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
