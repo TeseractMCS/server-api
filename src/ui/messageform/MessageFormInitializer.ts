@@ -12,6 +12,8 @@ class MessageFormInitializer extends MessageFormData {
     }
 
     public async sendForm(player: Player) {
+        await null;
+
         if (this.data.constructor["_button1"]) {
             const buttonText = this.data.constructor["_button1"].buttonText;
             this.button1(
@@ -28,8 +30,6 @@ class MessageFormInitializer extends MessageFormData {
                     : buttonText,
             );
         }
-
-        await null;
 
         const title = this.data.constructor["_formdata"]["title"];
         const body = this.data.constructor["_formdata"]["body"];
