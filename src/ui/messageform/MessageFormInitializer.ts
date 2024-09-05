@@ -16,7 +16,7 @@ class MessageFormInitializer extends MessageFormData {
             const buttonText = this.data.constructor["_button1"].buttonText;
             this.button1(
                 typeof buttonText === "function"
-                    ? buttonText(player)
+                    ? buttonText.call(this.data, player)
                     : buttonText,
             );
         }
@@ -24,12 +24,29 @@ class MessageFormInitializer extends MessageFormData {
             const buttonText = this.data.constructor["_button1"].buttonText;
             this.button2(
                 typeof buttonText === "function"
-                    ? buttonText(player)
+                    ? buttonText.call(this.data, player)
                     : buttonText,
             );
         }
 
         await null;
+
+        const title = this.data.constructor["_formdata"]["title"];
+        const body = this.data.constructor["_formdata"]["body"];
+
+        if (title)
+            this.title(
+                typeof title === "function"
+                    ? title.call(this.data, player)
+                    : title,
+            );
+
+        if (body)
+            this.body(
+                typeof body === "function"
+                    ? body.call(this.data, player)
+                    : body,
+            );
 
         const response = await ForceOpenForm(player, this);
 
