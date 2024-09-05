@@ -1,5 +1,3 @@
-import "./entity/Entity";
-import "./entity/Player";
 import { system, WorldInitializeBeforeEvent } from "@minecraft/server";
 import CommandManager from "./command/CommandManager";
 import EventManager from "./event/EventManager";
@@ -7,34 +5,27 @@ import Logger from "./Logger";
 import TeseractPlugin from "./plugin/TeseractPlugin";
 import EventHandler from "./event/EventHandler";
 
-globalThis.LOGGER = new Logger();
-Object.seal(globalThis.LOGGER);
-declare global {
-    /**
-     * A {@link console} object extension for internal @teseract/server-api logging.
-     * @remarks This object is usable anywhere, but {@link Logger.getPluginIdentifier} will always be "system"
-     */
-    var LOGGER: Logger;
-}
-
 const Plugins: { name: string; plugin: TeseractPlugin }[] = [];
+
 /**
  *
  */
-export default abstract class Teseract {
-    public static getLogger(pluginId: string) {
-        return new Logger(pluginId)
-    };
+abstract class Teseract {
+    public static MaxTickRange = 20000000;
 
-    public static getCurrentTick() {
-        system.currentTick;
+    public static getLogger(pluginId: string): Logger {
+        return new Logger(pluginId);
+    }
+
+    public static getCurrentTick(): number {
+        return system.currentTick;
     }
 
     public static getEventManager(): typeof EventManager {
         return EventManager;
     }
 
-    public static getCommanManager(): typeof CommandManager {
+    public static getCommandManager(): typeof CommandManager {
         return CommandManager;
     }
 
@@ -48,14 +39,13 @@ export default abstract class Teseract {
         pluginName: string,
     ): void {
         try {
-            // if (!(plugin instanceof TeseractPlugin)) {
-            //     throw new Error(
-            //         "Plugin " +
-            //             // @ts-ignore
-            //             plugin.constructor.name +
-            //             " is not a a derived class of TeseractPlugin",
-            //     );
-            // }
+            if (!(plugin instanceof TeseractPlugin)) {
+                throw new Error(
+                    "Plugin " +
+                        (plugin as any).constructor.name +
+                        " is not a a derived class of TeseractPlugin",
+                );
+            }
             Plugins.push({ plugin: plugin, name: pluginName });
             if (typeof plugin?.onLoaded === "function") {
                 plugin?.onLoaded();
@@ -78,3 +68,5 @@ export default abstract class Teseract {
 }
 
 Teseract.getEventManager().registerEvents(Teseract);
+
+export default Teseract;

@@ -11,25 +11,36 @@ import Identifier from "../util/Identifier";
 
 declare module "@minecraft/server" {
     interface ChatSendBeforeEvent {
+        /**
+         * Indicates if the message is a command.
+         */
         readonly isCommand: boolean;
     }
 }
 
-export default class CommandManager {
+/**
+ * Manages commands within the game, including handling command events and storing registered commands.
+ */
+class CommandManager {
     private static readonly commands: InstanceType<any>[] = [];
 
+    /**
+     * Gets the prefix used for commands.
+     * Defaults to "-" if not set in the dynamic properties.
+     * @returns The command prefix.
+     */
     public static get prefix(): string {
         let prefix = world.getDynamicProperty(
             Identifier.of("system", "command_prefix").toString(),
         ) as string;
-        if (prefix == undefined) {
+        if (prefix === undefined) {
             prefix = "-";
         }
         return prefix;
     }
 
     @EventHandler
-    public static onCommandAfterSent(event: ChatSendAfterEvent) {
+    private static onCommandAfterSent(event: ChatSendAfterEvent) {
         if (!event.message.startsWith(this.prefix)) {
             // @ts-ignore
             event.isCommand = false;
@@ -40,7 +51,7 @@ export default class CommandManager {
     }
 
     @EventHandler
-    public static onCommandSent(event: ChatSendBeforeEvent) {
+    private static onCommandSent(event: ChatSendBeforeEvent) {
         if (!event.message.startsWith(this.prefix)) {
             // @ts-ignore
             event.isCommand = false;
@@ -71,13 +82,25 @@ export default class CommandManager {
         }
     }
 
+    /**
+     * Retrieves the list of registered commands.
+     * @returns An array of registered command instances.
+     */
     public static getCommands() {
         return this.commands;
     }
-
-    public static registerCommand(commandClass: InstanceType<any>) {
-        this.commands.push(commandClass);
+    
+    /**
+     * Registers a bundle commands by adding its class instance to the list of commands.
+     * @param commandClasses - The class instances of the commands to register.
+     */
+    public static registerCommands(...commandClasses: InstanceType<any>[]) {
+        for (const command of commandClasses) {
+            this.commands.push(command);
+        }
     }
 }
+
+export default CommandManager;
 
 EventManager.registerEvents(CommandManager);

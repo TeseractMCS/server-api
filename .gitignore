@@ -1,2 +1,7 @@
 node_modules
 dist
+lib
+teseract-server-api*
+teseractmcs-server-api*
+web-docs
+docs

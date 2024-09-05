@@ -2,6 +2,7 @@ export default class FormatUtil {
     public static clamp(num: number, min: number, max: number) {
         return num <= min ? min : num >= max ? max : num;
     }
+    
     /**
      * Adds a leading zero if the number has a single digit.
      *
@@ -164,19 +165,19 @@ export default class FormatUtil {
         });
     }
 
-    // /**
-    //  * Formats a number with thousands separators.
-    //  * @param number - The number to format.
-    //  * @param locale - The locale for formatting (default is 'en-US').
-    //  * @returns The formatted number as a string.
-    //  * @remarks This method uses the Intl.NumberFormat API to format the number with thousands separators.
-    //  */
-    // public static formatNumber(
-    //     number: number,
-    //     locale: string = "en-US",
-    // ): string {
-    //     return new Intl.NumberFormat(locale).format(number);
-    // }
+    /**
+     * Formats a number with thousands separators.
+     * @param number - The number to format.
+     * @param locale - The locale for formatting (default is 'en-US').
+     * @returns The formatted number as a string.
+     * @remarks This method uses the Intl.NumberFormat API to format the number with thousands separators.
+     */
+    public static formatNumber(
+        number: number,
+        locale: string = "en-US",
+    ): string {
+        return new Intl.NumberFormat(locale).format(number);
+    }
 
     /**
      * Rounds a number to a specific number of decimal places.
