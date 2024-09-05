@@ -6,7 +6,7 @@ import ActionFormIntializer from "../ui/actionform/ActionFormInitializer";
 import MessageFormInitializer from "../ui/messageform/MessageFormInitializer";
 import FormError from "../util/error/FormError";
 import IsInstance from "../util/general/IsInstance";
-import FormType from "src/ui/FormType";
+import FormType from "../ui/FormType";
 
 declare module "@minecraft/server" {
     interface Player {
