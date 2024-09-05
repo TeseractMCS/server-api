@@ -1,11 +1,12 @@
 {
   "name": "@teseractmcs/server-api",
-  "version": "1.2.0",
+  "version": "1.1.0",
   "description": "",
-  "types": "lib/index.d.ts",
-  "main": "lib/index.js",
   "exports": {
-    ".": "./lib/index.js"
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    }
   },
   "scripts": {
     "postinstall": "npm install @minecraft/server@1.14.0-beta.1.21.21-stable",
