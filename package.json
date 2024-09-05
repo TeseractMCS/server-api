@@ -10,7 +10,8 @@
   "scripts": {
     "postinstall": "npm install @minecraft/server@1.14.0-beta.1.21.21-stable",
     "clean": "rmdir /s /q lib",
-    "build": "npm run clean && tsc"
+    "build": "npm run clean && tsc",
+    "pack": "npm run build && npm pack"
   },
   "publishConfig": {
     "access": "public"
