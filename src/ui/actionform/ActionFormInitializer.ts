@@ -47,6 +47,8 @@ class ActionFormIntializer extends ActionFormData {
         const response = await ForceOpenForm(player, this);
 
         if (response.canceled) {
+            const canceled = this.data.constructor["_canceled"];
+            canceled?.call(this.data, player);
             return;
         }
 
