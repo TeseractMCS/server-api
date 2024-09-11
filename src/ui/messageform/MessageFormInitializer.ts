@@ -23,7 +23,7 @@ class MessageFormInitializer extends MessageFormData {
             );
         }
         if (this.data.constructor["_button2"]) {
-            const buttonText = this.data.constructor["_button1"].buttonText;
+            const buttonText = this.data.constructor["_button2"].buttonText;
             this.button2(
                 typeof buttonText === "function"
                     ? buttonText.call(this.data, player)
