@@ -10,7 +10,12 @@ import FormType from "../ui/FormType";
 
 declare module "@minecraft/server" {
     interface Player {
-        sendForm(form: InstanceType<any>): void;
+        /**
+         * Sends a form to the player.
+         * @param form The form that will be sent to the player.
+         */
+        sendForm(form: any | MessageFormInitializer | ActionFormIntializer): void;
+
         /**
          * Applies a scaled knockback effect to the player based on the direction and magnitude.
          * The effect is scaled according to the player's armor, with netherite armor providing extra resistance that will be inhibited.
@@ -40,8 +45,22 @@ declare module "@minecraft/server" {
          */
         getInventory(): PlayerInventory;
 
+        /**
+         * Retrieves the player's health.
+         * @returns The player's current health.
+         */
         getHealth(): number;
+
+        /**
+         * Retrieves the player's max health.
+         * @returns The player's max health.
+         */
         getMaxHealth(): number;
+
+        /**
+         * Retrieves the player's health component.
+         * @returns The player's health component.
+         */
         getHealthAttribute(): EntityHealthComponent;
     }
 }
@@ -57,7 +76,7 @@ Player.prototype.scaledKnockback = function scaledKnockback(
 
     for (const armor in ArmorSlot) {
         const piece = this.getInventory().getArmorItemStack(ArmorSlot[armor]);
-        if (piece?.getTypeId()?.includes("netherite")) {
+        if (piece?.typeId?.includes("netherite")) {
             multiplier += 0.15;
         }
     }
@@ -109,18 +128,10 @@ Player.prototype.applyImpulse = function applyImpulse(vector: Vector3) {
     this.scaledKnockback(x, z, horizontal, vertical);
 };
 
-Player.prototype.clearVerticalImpulse = function clearVerticalImpulse() {
-    let pieces = 0;
-    let multiplier = 1.0;
-
-    for (const armor in ArmorSlot) {
-        const piece = this.getInventory().getArmorItemStack(ArmorSlot[armor]);
-        pieces += piece?.typeId?.includes("netherite") ? 1 : 0;
-        if (piece?.typeId?.includes("netherite")) {
-            multiplier += 0.15;
-        }
-    }
-    this.applyKnockback(0, 0, 0, -this.getVelocity().y * multiplier);
+Player.prototype.clearVerticalImpulse = function clearVerticalImpulse(
+    this: Player,
+) {
+    this.scaledKnockback(0, 0, 0, -this.getVelocity().y);
 };
 
 Player.prototype.getInventory = function getInventory(): PlayerInventory {
