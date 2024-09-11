@@ -39,6 +39,10 @@ declare module "@minecraft/server" {
          * @returns The player's inventory as a `PlayerInventory` instance.
          */
         getInventory(): PlayerInventory;
+
+        getHealth(): number;
+        getMaxHealth(): number;
+        getHealthAttribute(): EntityHealthComponent;
     }
 }
 
@@ -58,7 +62,7 @@ Player.prototype.scaledKnockback = function scaledKnockback(
         }
     }
 
-    this.knockback(
+    this.applyKnockback(
         directionX,
         directionZ,
         magnitudeX * multiplier,
@@ -73,10 +77,7 @@ Player.prototype.sendForm = async function sendForm(form: InstanceType<any>) {
         );
     }
 
-    if (
-        !(form instanceof ActionFormIntializer) &&
-        !(form instanceof MessageFormInitializer)
-    ) {
+    if (!form.constructor["_formdata"]) {
         throw new FormError(
             `Object instance passed to Player.sendForm function is not a form.`,
         );
@@ -114,14 +115,28 @@ Player.prototype.clearVerticalImpulse = function clearVerticalImpulse() {
 
     for (const armor in ArmorSlot) {
         const piece = this.getInventory().getArmorItemStack(ArmorSlot[armor]);
-        pieces += piece?.getTypeId()?.includes("netherite") ? 1 : 0;
-        if (piece?.getTypeId()?.includes("netherite")) {
+        pieces += piece?.typeId?.includes("netherite") ? 1 : 0;
+        if (piece?.typeId?.includes("netherite")) {
             multiplier += 0.15;
         }
     }
-    this.knockback(0, 0, 0, -this.getVelocity().y * multiplier);
+    this.applyKnockback(0, 0, 0, -this.getVelocity().y * multiplier);
 };
 
 Player.prototype.getInventory = function getInventory(): PlayerInventory {
     return new PlayerInventory((this as Player).getComponent("inventory"));
+};
+
+Player.prototype.getHealth = function getHealth(this: Player) {
+    return this.getComponent("health").currentValue;
+};
+
+Player.prototype.getMaxHealth = function getMaxHealth(this: Player) {
+    return this.getComponent("health").defaultValue;
+};
+
+Player.prototype.getHealthAttribute = function getHealthAttribute(
+    this: Player,
+) {
+    return this.getComponent("health");
 };
