@@ -10,7 +10,12 @@ import FormType from "../ui/FormType";
 
 declare module "@minecraft/server" {
     interface Player {
-        sendForm(form: InstanceType<any>): void;
+        /**
+         * Sends a form to the player.
+         * @param form The form that will be sent to the player.
+         */
+        sendForm(form: any | MessageFormInitializer | ActionFormIntializer): void;
+
         /**
          * Applies a scaled knockback effect to the player based on the direction and magnitude.
          * The effect is scaled according to the player's armor, with netherite armor providing extra resistance that will be inhibited.
@@ -39,6 +44,24 @@ declare module "@minecraft/server" {
          * @returns The player's inventory as a `PlayerInventory` instance.
          */
         getInventory(): PlayerInventory;
+
+        /**
+         * Retrieves the player's health.
+         * @returns The player's current health.
+         */
+        getHealth(): number;
+
+        /**
+         * Retrieves the player's max health.
+         * @returns The player's max health.
+         */
+        getMaxHealth(): number;
+
+        /**
+         * Retrieves the player's health component.
+         * @returns The player's health component.
+         */
+        getHealthAttribute(): EntityHealthComponent;
     }
 }
 
@@ -53,12 +76,12 @@ Player.prototype.scaledKnockback = function scaledKnockback(
 
     for (const armor in ArmorSlot) {
         const piece = this.getInventory().getArmorItemStack(ArmorSlot[armor]);
-        if (piece?.getTypeId()?.includes("netherite")) {
+        if (piece?.typeId?.includes("netherite")) {
             multiplier += 0.15;
         }
     }
 
-    this.knockback(
+    this.applyKnockback(
         directionX,
         directionZ,
         magnitudeX * multiplier,
@@ -73,10 +96,7 @@ Player.prototype.sendForm = async function sendForm(form: InstanceType<any>) {
         );
     }
 
-    if (
-        !(form instanceof ActionFormIntializer) &&
-        !(form instanceof MessageFormInitializer)
-    ) {
+    if (!form.constructor["_formdata"]) {
         throw new FormError(
             `Object instance passed to Player.sendForm function is not a form.`,
         );
@@ -108,20 +128,26 @@ Player.prototype.applyImpulse = function applyImpulse(vector: Vector3) {
     this.scaledKnockback(x, z, horizontal, vertical);
 };
 
-Player.prototype.clearVerticalImpulse = function clearVerticalImpulse() {
-    let pieces = 0;
-    let multiplier = 1.0;
-
-    for (const armor in ArmorSlot) {
-        const piece = this.getInventory().getArmorItemStack(ArmorSlot[armor]);
-        pieces += piece?.getTypeId()?.includes("netherite") ? 1 : 0;
-        if (piece?.getTypeId()?.includes("netherite")) {
-            multiplier += 0.15;
-        }
-    }
-    this.knockback(0, 0, 0, -this.getVelocity().y * multiplier);
+Player.prototype.clearVerticalImpulse = function clearVerticalImpulse(
+    this: Player,
+) {
+    this.scaledKnockback(0, 0, 0, -this.getVelocity().y);
 };
 
 Player.prototype.getInventory = function getInventory(): PlayerInventory {
     return new PlayerInventory((this as Player).getComponent("inventory"));
+};
+
+Player.prototype.getHealth = function getHealth(this: Player) {
+    return this.getComponent("health").currentValue;
+};
+
+Player.prototype.getMaxHealth = function getMaxHealth(this: Player) {
+    return this.getComponent("health").defaultValue;
+};
+
+Player.prototype.getHealthAttribute = function getHealthAttribute(
+    this: Player,
+) {
+    return this.getComponent("health");
 };

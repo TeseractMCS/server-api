@@ -1,7 +1,5 @@
 import Logger from "./Logger";
 
-globalThis.LOGGER = new Logger();
-Object.seal(globalThis.LOGGER);
 
 declare global {
     /**

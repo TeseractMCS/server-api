@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Vector2, Vector3 as MinecraftVector3 } from "@minecraft/server";
+import type { Vector3 as MinecraftVector3 } from "@minecraft/server";
 import Clamp from "./Clamp";
 
 /**
@@ -245,8 +244,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * equals
-     *
      * Check the equality of two vectors
      */
     public equals(v: MinecraftVector3): boolean {
@@ -254,8 +251,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * add
-     *
      * Adds the vector v to this, returning itself.
      */
     public add(v: MinecraftVector3): Vec3d {
@@ -263,16 +258,13 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * subtract
-     *
      * Subtracts the vector v from this, returning itself.
      */
     public subtract(v: MinecraftVector3): Vec3d {
         return this.assign(Vec3d.subtract(this, v));
     }
 
-    /** scale
-     *
+    /**
      * Scales this by the passed in value, returning itself.
      */
     public scale(val: number): Vec3d {
@@ -280,8 +272,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * dot
-     *
      * Computes the dot product of this and the passed in vector.
      */
     public dot(vec: MinecraftVector3): number {
@@ -289,8 +279,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * cross
-     *
      * Computes the cross product of this and the passed in vector, returning itself.
      */
     public cross(vec: MinecraftVector3): Vec3d {
@@ -298,8 +286,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * magnitude
-     *
      * The magnitude of the vector
      */
     public magnitude(): number {
@@ -307,8 +293,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * distance
-     *
      * Calculate the distance between two vectors
      */
     public distance(vec: MinecraftVector3): number {
@@ -316,8 +300,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * normalize
-     *
      * Normalizes this vector, returning itself.
      */
     public normalize(): Vec3d {
@@ -325,8 +307,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * floor
-     *
      * Floor the components of a vector to produce a new vector
      */
     public floor(): Vec3d {
@@ -334,8 +314,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * toString
-     *
      * Create a string representation of a vector
      */
     public toString(options?: {
@@ -346,8 +324,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * clamp
-     *
      * Clamps the components of a vector to limits to produce a new vector
      */
     public clamp(limits: {
@@ -358,8 +334,6 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * lerp
-     *
      * Constructs a new vector using linear interpolation on each component from two vectors.
      */
     public lerp(vec: MinecraftVector3, t: number): Vec3d {
@@ -367,50 +341,9 @@ export default class Vec3d implements MinecraftVector3 {
     }
 
     /**
-     * slerp
-     *
      * Constructs a new vector using spherical linear interpolation on each component from two vectors.
      */
     public slerp(vec: MinecraftVector3, t: number): Vec3d {
         return this.assign(Vec3d.slerp(this, vec, t));
-    }
-}
-
-/**
- * Vector2 wrapper class which can be used as a Vector2 for APIs on \@minecraft/server which require a Vector2.
- * @public
- */
-export class Vec2d implements Vector2 {
-    x: number;
-    y: number;
-
-    constructor(vec: Vector2, arg?: never);
-    constructor(x: number, y: number);
-    constructor(first: number | Vector2, y?: number) {
-        if (typeof first === "object") {
-            this.x = first.x;
-            this.y = first.y;
-        } else {
-            this.x = first;
-            this.y = y ?? 0;
-        }
-    }
-
-    /**
-     * toString
-     *
-     * Create a string representation of a vector2
-     */
-    static toString(
-        v: Vector2,
-        options?: { decimals?: number; delimiter?: string },
-    ): string {
-        const decimals = options?.decimals ?? 2;
-        const str: string[] = [v.x.toFixed(decimals), v.y.toFixed(decimals)];
-        return str.join(options?.delimiter ?? ", ");
-    }
-
-    toString(options?: { decimals?: number; delimiter?: string }): string {
-        return Vec2d.toString(this, options);
     }
 }

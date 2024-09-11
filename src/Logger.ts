@@ -180,4 +180,8 @@ class Logger {
     }
 }
 
+
+globalThis.LOGGER = new Logger();
+Object.seal(globalThis.LOGGER);
+
 export default Logger;
