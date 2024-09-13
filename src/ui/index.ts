@@ -1,3 +1,7 @@
+import FormType from "./FormType";
+
+export { FormType };
+
 import Canceled from "./Canceled";
 import FormBody from "./FormBody";
 import FormTitle from "./FormTitle";
