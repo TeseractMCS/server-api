@@ -4,7 +4,6 @@ import Command from "./Command";
 import CommandManager from "./CommandManager";
 import { Player } from "@minecraft/server";
 
-
 export default function CommandHandler(
     player: Player,
     commandName: string,
@@ -50,10 +49,7 @@ export default function CommandHandler(
             : undefined;
 
         if (subCommand) {
-            if (
-                subCommand.permission &&
-                !subCommand.permission(player)
-            ) {
+            if (subCommand.permission && !subCommand.permission(player)) {
                 errorMessage = {
                     translate: "commands.generic.unknown",
                     with: [commandName],
@@ -100,7 +96,7 @@ export default function CommandHandler(
                 argsCopySub.length === paramTypes.length - optionalParams.length
             ) {
                 for (let i = argsCopySub.length; i < paramTypes.length; i++) {
-                    if (!optionalParams.includes(i)) {
+                    if (!optionalParams.includes(i + 1)) {
                         //@ts-ignore
                         argsCopySub.push(undefined);
                     }
@@ -114,7 +110,10 @@ export default function CommandHandler(
                                 ArgumentParser(arg, paramTypes[index]),
                             ) ?? [];
 
-                    if (parsedArgs.length >= bestMatchCount) {
+                    if (
+                        parsedArgs.length - optionalParams.length >=
+                        bestMatchCount
+                    ) {
                         bestMatch = {
                             method: callback,
                             args: parsedArgs,
@@ -239,6 +238,6 @@ export default function CommandHandler(
                 : errorMessage;
         }
     }
-    
+
     player.sendMessage([{ text: "§c" }, errorMessage]);
 }

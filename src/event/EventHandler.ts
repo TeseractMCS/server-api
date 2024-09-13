@@ -47,8 +47,7 @@ export default function EventHandler(
             .replace("Event", "");
 
     const isAfter = unparsedName.includes("AfterEvent");
-
-    if (!world.afterEvents[eventName] && world.beforeEvents[eventName]) {
+    if (!world.afterEvents[eventName] && !world.beforeEvents[eventName]) {
         throw new Error(
             `Event type '${unparsedName}' used in method "${propertyKey}" of class "${constructor.name}" is not registered in EventMap.`,
         );
