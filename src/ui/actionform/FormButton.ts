@@ -5,7 +5,7 @@ function FormButton<T = any>(
         | RawMessage
         | string
         | ((this: T, player: Player) => RawMessage | string),
-    iconPath?: string | ((this: T, player: Player) => string),
+    iconPath?: string | ((this: T, player: Player, selection: number) => string),
 ) {
     return function (
         target: any,
