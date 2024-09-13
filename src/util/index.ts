@@ -7,6 +7,8 @@ import UnitConversor from "./UnitConversor";
 import Vec3d from "./math/Vec3d";
 import Clamp from "./math/Clamp";
 
+export * from "./error/index";
+
 export {
     Identifier,
     FormatUtil,
