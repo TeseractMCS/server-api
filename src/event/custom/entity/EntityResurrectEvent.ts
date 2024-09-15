@@ -7,6 +7,7 @@ import {
     world,
     WorldBeforeEvents,
 } from "@minecraft/server";
+import EventSignal from "../EventSignal";
 
 interface CachedEntity {
     nameTag: string;
@@ -14,7 +15,8 @@ interface CachedEntity {
     typeId: string;
 }
 
-const resurrectCallbacks: Array<(event: EntityResurrectEvent) => void> = [];
+const resurrectCallbacks: Array<(event: EntityResurrectBeforeEvent) => void> =
+    [];
 
 const EntityCache: Map<string, CachedEntity> = new Map();
 
@@ -38,6 +40,37 @@ function parseKillerName(name: string): string {
         );
     return parsedName[0].toUpperCase() + parsedName.substring(1);
 }
+
+interface EntityResurrectEventSignal
+    extends EventSignal<EntityResurrectBeforeEvent> {
+    /**
+     * Subscribes to the entity resurrection event.
+     * @param callback - The callback function to be invoked when the event occurs.
+     */
+    subscribe(callback: (event: EntityResurrectBeforeEvent) => void): void;
+
+    /**
+     * Unsubscribes from the entity resurrection event.
+     * @param callback - The callback function to be removed from the subscription list.
+     */
+    unsubscribe(callback: (event: EntityResurrectBeforeEvent) => void): void;
+
+    /**
+     * @private
+     */
+    triggerEvent(event: EntityResurrectBeforeEvent): void;
+}
+
+/**
+ * Manages the subscription and unsubscription of entity resurrection events.
+ */
+class EntityResurrectEventSignal extends EventSignal<EntityResurrectBeforeEvent> {}
+
+const entityResurrectEventSignal = new EntityResurrectEventSignal();
+
+WorldBeforeEvents.prototype.entityResurrect = entityResurrectEventSignal;
+
+world.beforeEvents.entityResurrect = entityResurrectEventSignal;
 
 /**
  * Subscribes to the `entityHurt` event and processes the event to handle resurrection logic.
@@ -103,7 +136,7 @@ world.afterEvents.entityHurt.subscribe((arg) => {
 
             const projectileComponent =
                 mimicProjectile?.getComponent("projectile");
-                
+
             if (mimicProjectile && projectileComponent) {
                 projectileComponent.owner = damageSource.damagingEntity;
             }
@@ -119,7 +152,7 @@ world.afterEvents.entityHurt.subscribe((arg) => {
                 }
             }
 
-            const eventData = new EntityResurrectEvent({
+            const eventData = new EntityResurrectBeforeEvent({
                 hurtEntity: player,
                 damage,
                 damageSource: {
@@ -131,9 +164,7 @@ world.afterEvents.entityHurt.subscribe((arg) => {
                 },
             });
 
-            for (const callback of resurrectCallbacks) {
-                callback(eventData);
-            }
+            world.beforeEvents.entityResurrect.triggerEvent(eventData);
 
             if (!eventData.cancel) {
                 if (mimicProjectile) {
@@ -211,7 +242,7 @@ world.afterEvents.entityHurt.subscribe((arg) => {
 /**
  * Represents an event that is triggered when an entity is about to be resurrected with a totem of undying.
  */
-class EntityResurrectEvent {
+class EntityResurrectBeforeEvent {
     cancel: boolean = false;
     damage: number;
     entity: Entity;
@@ -244,33 +275,4 @@ declare module "@minecraft/server" {
     }
 }
 
-/**
- * Manages the subscription and unsubscription of entity resurrection events.
- */
-class EntityResurrectEventSignal {
-    /**
-     * Subscribes to the entity resurrection event.
-     * @param callback - The callback function to be invoked when the event occurs.
-     */
-    subscribe(callback: (event: EntityResurrectEvent) => void) {
-        callback["id"] = Date.now().toString(16);
-        resurrectCallbacks.push(callback);
-    }
-
-    /**
-     * Unsubscribes from the entity resurrection event.
-     * @param callback - The callback function to be removed from the subscription list.
-     */
-    unsubscribe(callback: (event: EntityResurrectEvent) => void) {
-        resurrectCallbacks.splice(
-            resurrectCallbacks.findIndex((cal) => callback["id"] == cal["id"]),
-            1,
-        );
-    }
-}
-
-const entityResurrectEventSignal = new EntityResurrectEventSignal();
-WorldBeforeEvents.prototype.entityResurrect = entityResurrectEventSignal;
-world.beforeEvents.entityResurrect = entityResurrectEventSignal;
-
-export { EntityResurrectEventSignal, EntityResurrectEvent };
+export { EntityResurrectEventSignal, EntityResurrectBeforeEvent };

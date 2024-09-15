@@ -59,11 +59,11 @@ import {
     WorldInitializeAfterEvent,
     WorldInitializeBeforeEvent,
 } from "@minecraft/server";
-import { EntityResurrectEvent } from "./custom/entity/EntityResurrectEvent";
+import { EntityResurrectBeforeEvent } from "./custom/entity/EntityResurrectEvent";
 
 const EventMappings = {
     // Custom events
-    EntityResurrectEvent,
+    EntityResurrectBeforeEvent,
     // Vanila events
     WorldInitializeAfterEvent,
     GameRuleChangeAfterEvent,
