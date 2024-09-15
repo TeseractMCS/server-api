@@ -1,8 +1,9 @@
 export default class EventSignal<T> {
     private listeners: Set<(event: T) => void> = new Set();
 
-    public subscribe(callback: (event: T) => void) {
+    public subscribe(callback: (event: T) => void): (event: T) => void {
         this.listeners.add(callback);
+        return callback;
     }
 
     public unsubscribe(callback: (event: T) => void) {
