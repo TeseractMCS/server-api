@@ -1,5 +1,10 @@
 import { RawMessage, Player } from "@minecraft/server";
 
+/**
+ * Decorator for creating a button in an action form.
+ * The decorated method will be executed when the corresponding button is selected.
+ * When selected, it will call the function with the player object the form was sent to, and the selection index.    
+ */
 function FormButton<T = any>(
     buttonText:
         | RawMessage
