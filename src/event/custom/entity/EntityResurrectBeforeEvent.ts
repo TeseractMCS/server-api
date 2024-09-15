@@ -47,7 +47,9 @@ interface EntityResurrectEventSignal
      * Subscribes to the entity resurrection event.
      * @param callback - The callback function to be invoked when the event occurs.
      */
-    subscribe(callback: (event: EntityResurrectBeforeEvent) => void): void;
+    subscribe(
+        callback: (event: EntityResurrectBeforeEvent) => void,
+    ): (event: EntityResurrectBeforeEvent) => void;
 
     /**
      * Unsubscribes from the entity resurrection event.
