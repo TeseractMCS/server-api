@@ -63,6 +63,15 @@ interface EntityResurrectEventSignal
     triggerEvent(event: EntityResurrectBeforeEvent): void;
 }
 
+declare module "@minecraft/server" {
+    interface WorldBeforeEvents {
+        /**
+         * Event triggered before an entity is resurrected.
+         */
+        entityResurrect: EntityResurrectEventSignal;
+    }
+}
+
 /**
  * Manages the subscription and unsubscription of entity resurrection events.
  */
@@ -265,15 +274,6 @@ class EntityResurrectBeforeEvent {
         this.damageSource = data.damageSource;
         this.cancel = false;
         this.entity = data.hurtEntity;
-    }
-}
-
-declare module "@minecraft/server" {
-    interface WorldBeforeEvents {
-        /**
-         * Event triggered before an entity is resurrected.
-         */
-        entityResurrect: EntityResurrectEventSignal;
     }
 }
 

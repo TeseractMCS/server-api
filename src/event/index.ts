@@ -2,4 +2,8 @@ import { EntityResurrectBeforeEvent } from "./custom/entity/EntityResurrectBefor
 import EventHandler from "./EventHandler";
 import EventMappings from "./EventMappings";
 
-export { EntityResurrectBeforeEvent, EventHandler, EventMappings };
+export {
+    EntityResurrectBeforeEvent,
+    EventHandler,
+    EventMappings,
+};
