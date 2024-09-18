@@ -11,8 +11,9 @@ export { Canceled, FormBody, FormTitle };
 import ActionForm from "./actionform/ActionForm";
 import ActionFormIntializer from "./actionform/ActionFormInitializer";
 import FormButton from "./actionform/FormButton";
+import OnActionFormInit from "./actionform/OnActionFormInit";
 
-export { ActionForm, ActionFormIntializer, FormButton };
+export { ActionForm, ActionFormIntializer, FormButton, OnActionFormInit };
 
 import MessageForm from "./messageform/MessageForm";
 import MessageFormInitializer from "./messageform/MessageFormInitializer";
