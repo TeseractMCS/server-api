@@ -1,6 +1,6 @@
 {
   "name": "@teseractmcs/server-api",
-  "version": "1.0.0-beta.1.14.0-beta",
+  "version": "1.0.0-beta.1.15.0-beta",
   "description": "API that extends the vanilla @minecraft/server-api",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
@@ -9,7 +9,7 @@
     "README.md"
   ],
   "scripts": {
-    "postinstall": "npm install @minecraft/server@1.14.0-beta.1.21.21-stable",
+    "postinstall": "npm install @minecraft/server@1.15.0-beta.1.21.30-stable",
     "clean": "rmdir /s /q lib",
     "build": "npm run clean && tsc",
     "pack": "npm run build && npm pack"
@@ -20,8 +20,8 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@minecraft/server": "^1.14.0-beta.1.21.21-stable",
-    "@minecraft/server-ui": "^1.2.0",
+    "@minecraft/server": "^1.15.0-beta.1.21.30-stable",
+    "@minecraft/server-ui": "^1.3.0",
     "reflect-metadata": "^0.2.2",
     "typescript": "^4.0.0"
   }
