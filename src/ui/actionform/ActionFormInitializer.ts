@@ -5,11 +5,37 @@ import ForceOpenForm from "../../util/ui/ForceOpenForm";
 class ActionFormIntializer {
     private form: ActionFormData;
     private beingSent: boolean = false;
+    private isCancelled = false;
+
     public static of(target: InstanceType<any>) {
         return new this(target);
     }
+    
     public constructor(private data: InstanceType<any>) {
         this.form = new ActionFormData();
+    }
+
+    /**
+     * Cancel the form delivery.
+     */
+    public cancel() {
+        this.isCancelled = true;
+    }
+
+    /**
+     * Set the title of the form.
+     * @param newTitle New title to set.
+     */
+    public setTitle(newTitle: string | RawMessage) {
+        this.form.title(newTitle);
+    }
+
+    /**
+     * Set the body of the form.
+     * @param newTitle New body to set.
+     */
+    public setBody(newTitle: string | RawMessage) {
+        this.form.body(newTitle);
     }
 
     public appendButton(
@@ -57,6 +83,8 @@ class ActionFormIntializer {
                     : body,
             );
 
+        this.data.constructor["_onInitialized"]?.call(this.data, this, player);
+
         for (const button of this.data.constructor["_buttons"]) {
             const text =
                 typeof button.buttonText === "function"
@@ -70,11 +98,10 @@ class ActionFormIntializer {
             );
         }
 
-        this.data.constructor["_onInitialized"].callback.apply(
-            this.data,
-            this,
-            player,
-        );
+        if (this.isCancelled) {
+            this.isCancelled = false;
+            return;
+        }
 
         const response = await ForceOpenForm(player, this.form);
 
