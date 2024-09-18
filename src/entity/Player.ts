@@ -7,6 +7,7 @@ import MessageFormInitializer from "../ui/messageform/MessageFormInitializer";
 import FormError from "../util/error/FormError";
 import IsInstance from "../util/general/IsInstance";
 import FormType from "../ui/FormType";
+import { Vec3d } from "../util/index";
 
 declare module "@minecraft/server" {
     interface Player {
@@ -132,6 +133,11 @@ Player.prototype.clearVerticalImpulse = function clearVerticalImpulse(
     this: Player,
 ) {
     this.scaledKnockback(0, 0, 0, -this.getVelocity().y);
+};
+
+Player.prototype.clearVelocity = function clearVelocity() {
+    const velocity = new Vec3d(this.getVelocity());
+    this.applyImpulse(new Vec3d(-velocity.x, -velocity.y + (!this.isOnGround ? 0.05 : 0.0), -velocity.z));
 };
 
 Player.prototype.getInventory = function getInventory(): PlayerInventory {
