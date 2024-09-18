@@ -1,6 +1,6 @@
 {
   "name": "@teseractmcs/server-api",
-  "version": "1.0.0-beta+1.14.0-beta",
+  "version": "1.0.0-beta.1.14.0-beta",
   "description": "API that extends the vanilla @minecraft/server-api",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
